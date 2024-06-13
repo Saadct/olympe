@@ -3,6 +3,7 @@ package saad.projet.jo.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -35,13 +36,16 @@ public class AuthConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests.
-                        requestMatchers(new AntPathRequestMatcher("/evenements")).permitAll()
-                  //      .requestMatchers(new AntPathRequestMatcher("/evenements/**")).hasAnyAuthority("USER")
+
+                        requestMatchers(new AntPathRequestMatcher("/evenements/**")).permitAll()
+                  //
+
+                    //   .requestMatchers(new AntPathRequestMatcher("/evenements/**")).hasAnyAuthority("USER")
                         .requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/users/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/operations/**")).hasAnyAuthority("ADMIN")
                         .requestMatchers(new AntPathRequestMatcher("/evenements")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/categories")).hasAnyAuthority("ADMIN")
+                        .requestMatchers(new AntPathRequestMatcher("/categories")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/spectators")).hasAnyAuthority("ADMIN")
 
                 )//.anyRequest().authenticated())
@@ -51,6 +55,7 @@ public class AuthConfiguration {
 
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 
@@ -58,9 +63,11 @@ public class AuthConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:8080"));
-        configuration.setAllowedMethods(List.of("GET","POST"));
+        configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.setAllowedOrigins(List.of("http://localhost:8080","http://localhost:3000"));
+        configuration.setAllowedMethods(List.of("GET","POST","DELETE"));
         configuration.setAllowedHeaders(List.of("Authorization","Content-Type"));
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 

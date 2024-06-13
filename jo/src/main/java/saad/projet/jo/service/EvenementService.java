@@ -1,11 +1,16 @@
 package saad.projet.jo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import saad.projet.jo.constants.State;
 import saad.projet.jo.dto.evenement.CreateEvent;
 import saad.projet.jo.model.Evenement;
+import saad.projet.jo.model.Ticket;
+import saad.projet.jo.model.User;
 import saad.projet.jo.repository.EvenementRepository;
 
 import java.time.LocalDateTime;
@@ -31,7 +36,29 @@ public class EvenementService {
 
     public List<Evenement> findAllEvenement() {
         System.out.println("Toutes les evenements");
+       // Pageable paging = PageRequest.of(0, 10); // Always return the first 10 elements
         return repository.findAll();
+    }
+
+
+    public Page<Evenement> findPaginatedEvenements(int page, int size) {
+        Pageable paging = PageRequest.of(page, size);
+        return repository.findByDateAfter(paging);
+    }
+
+    public Page<Evenement> findByCategoryPaginatedEvenements(String id, int page, int size) {
+        Pageable paging = PageRequest.of(page, size);
+        return repository.findByCategory(categoryService.findCategoryById(id), paging);
+    }
+
+    public int getTotalPage(int size) {
+    long totalItems = repository.countByDateAfter();
+    return (int) Math.ceil((double) totalItems / size);
+    }
+
+    public int getTotalPageByCategory(String uuid, int size) {
+        long totalItems = repository.countByDateAfterByCategory(categoryService.findCategoryById(uuid));
+        return (int) Math.ceil((double) totalItems / size);
     }
 
     public List<Evenement> findAllEvenementByState(String state) {
@@ -42,6 +69,7 @@ public class EvenementService {
     public Evenement findEvenementById(String uuid) {
         return repository.findOneByUuid(uuid).orElse(null);
     }
+
 
     /*
     public Boolean createEvenement(Evenement evenement) {
@@ -81,6 +109,14 @@ public class EvenementService {
         }
     }
 
+
+    public Boolean checkAvailableEvent(String uuid){
+        Evenement evenement = findEvenementById(uuid);
+        if(evenement.getAvailableSeats() > 0){
+            return true;
+        }
+        return false;
+    }
 
     @Transactional
     public Boolean deleteEvenement(String id) {

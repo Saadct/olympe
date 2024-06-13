@@ -12,8 +12,16 @@ public class RegisterDto {
     @StrongPassword
     private String password;
 
-    @Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "Le nom complet ne doit contenir que des lettres, des chiffres et des espaces.")
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "Le nom complet ne doit contenir que des lettres.")
     private String fullName;
+
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "Le nom complet ne doit contenir que des lettres.")
+    private String name;
+
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "Le nom complet ne doit contenir que des lettres.")
+    private String firstName;
+
+
 
     public String getPassword() {
         return password;
@@ -37,5 +45,21 @@ public class RegisterDto {
 
     public String getEmail() {
         return email;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

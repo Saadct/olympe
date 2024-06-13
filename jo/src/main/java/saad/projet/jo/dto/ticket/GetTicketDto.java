@@ -4,6 +4,8 @@ import saad.projet.jo.model.Evenement;
 
 public class GetTicketDto {
 
+    private String uuid;
+
     private String name;
 
     private Double price;
@@ -14,6 +16,14 @@ public class GetTicketDto {
     private String firstname;
 
     private Evenement evenement;
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
     public String getName() {
         return name;

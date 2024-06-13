@@ -27,6 +27,12 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String fullName;
 
+    @Column(nullable = true)
+    private String firstName;
+
+   @Column(nullable = true)
+    private String name;
+
     @Column(unique = true, length = 100, nullable = false)
     private String email;
 
@@ -52,6 +58,7 @@ public class User implements UserDetails {
     @OneToMany
     @JoinColumn(name="user_id")
     private List<Ticket> tickets = new ArrayList<>();
+
 
 
     @Override
@@ -137,4 +144,22 @@ public class User implements UserDetails {
     public Date getUpdatedAt() {
         return updatedAt;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+
 }

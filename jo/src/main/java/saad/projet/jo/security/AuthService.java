@@ -36,19 +36,21 @@ public class AuthService {
         user.setEmail(input.getEmail());
         user.setRole(Role.USER);
         user.setPasword(passwordEncoder.encode(input.getPassword()));
+        user.setFirstName(input.getFirstName());
+        user.setName(input.getName());
+
 
         return userRepository.save(user);
     }
 
-    public boolean UpdatePassword(String id, UpdatePasswordDto updatePassword){
-        User userToUpdate = userService.findById(id);
-        if(userToUpdate != null){
-            userToUpdate.setPasword(passwordEncoder.encode(updatePassword.getPassword()));
+    public boolean UpdatePassword(String email, UpdatePasswordDto updatePassword){
+        User userToUpdate = userService.findByEmail(email);
+        if (userToUpdate != null && passwordEncoder.matches(updatePassword.getOldPassword(), userToUpdate.getPassword())) {
+            userToUpdate.setPasword(passwordEncoder.encode(updatePassword.getNewPassword()));
             userRepository.save(userToUpdate);
             return true;
         }
         return false;
-
     }
 
     public User authenticate(LoginDto input){

@@ -1,18 +1,23 @@
 package saad.projet.jo.dto.user;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 
 public class UpdateUserDto {
     @Email(message = "Veuillez fournir une adresse e-mail valide.")
     private String email;
 
-    private String password;
-
+    @NotNull
     @Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "Le nom complet ne doit contenir que des lettres, des chiffres et des espaces.")
     private String fullName;
 
-    public String getPassword() {
-        return password;
-    }
+    @NotNull
+    @Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "Le nom complet ne doit contenir que des lettres, des chiffres et des espaces.")
+    private String firstName;
+
+    @NotNull
+    @Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "Le nom complet ne doit contenir que des lettres, des chiffres et des espaces.")
+    private String name;
+
 
     public void setEmail(String email) {
         this.email = email;
@@ -22,9 +27,6 @@ public class UpdateUserDto {
         this.fullName = fullName;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getFullName() {
         return fullName;
@@ -34,4 +36,19 @@ public class UpdateUserDto {
         return email;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

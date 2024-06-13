@@ -17,6 +17,8 @@ public class Category {
 
     private String gender;
 
+
+
     @OneToMany
     @JoinColumn(name="sport_id")
     private List<Evenement> evenements = new ArrayList<>();
@@ -44,4 +46,9 @@ public class Category {
     public void setType(String type) {
         this.type = type;
     }
+
+    public String getUuid() {
+        return uuid;
+    }
+
 }

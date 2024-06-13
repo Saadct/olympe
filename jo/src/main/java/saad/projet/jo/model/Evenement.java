@@ -17,6 +17,8 @@ public class Evenement {
     private String uuid;
     private String state;
     private String name;
+    private String shortDescription;
+    private String longDescription;
     private Integer totalSeats;
     private Integer availableSeats;
     private Double standartPrice;
@@ -126,4 +128,19 @@ public class Evenement {
         this.category = category;
     }
 
+    public String getShortDescription() {
+        return shortDescription;
+    }
+
+    public String getLongDescription() {
+        return longDescription;
+    }
+
+    public void setLongDescription(String longDescription) {
+        this.longDescription = longDescription;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
+    }
 }

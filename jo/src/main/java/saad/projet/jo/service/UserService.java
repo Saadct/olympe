@@ -2,8 +2,12 @@ package saad.projet.jo.service;
 
 import jakarta.persistence.GenerationType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import saad.projet.jo.constants.Role;
+import saad.projet.jo.dto.LoginResponse;
 import saad.projet.jo.dto.RegisterDto;
 import saad.projet.jo.dto.user.GetUserDto;
 import saad.projet.jo.dto.user.UpdatePasswordDto;
@@ -14,6 +18,8 @@ import saad.projet.jo.repository.OperationRepository;
 import saad.projet.jo.repository.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -30,8 +36,57 @@ public class UserService {
         this.operationRepository = operationRepository;
     }
 
+    public List<GetUserDto> findAll() {
+        List<User> users = repository.findAll();
+        List<GetUserDto> getUserDtoList = new ArrayList<>();
+        for(User user : users) {
+            GetUserDto getUserDto = new GetUserDto(user.getEmail(),
+                                                  user.getFullName(),
+                                                  user.getId(),
+                                                  user.getRole(),
+                                                  user.getName(),
+                                                  user.getFirstName()
+            );
+            getUserDtoList.add(getUserDto);
+        }
+        return getUserDtoList;
+    }
+
+    public List<GetUserDto> findAllPaginated(int page, int size) {
+        Pageable paging = PageRequest.of(page, size);
+        Page<User> users = repository.findAll(paging);
+        List<GetUserDto> getUserDtoList = new ArrayList<>();
+        for(User user : users) {
+            GetUserDto getUserDto = new GetUserDto(user.getEmail(),
+                    user.getFullName(),
+                    user.getId(),
+                    user.getRole(),
+                    user.getName(),
+                    user.getFirstName()
+            );
+            getUserDtoList.add(getUserDto);
+        }
+        return getUserDtoList;
+    }
+
+    public int getTotalPage(int size) {
+        long totalItems = repository.count();
+        return (int) Math.ceil((double) totalItems / size);
+    }
+
     public User findByEmail(String email) {
         return repository.findByEmail(email).orElse(null);
+    }
+
+    public GetUserDto findByToken(String email) {
+        User user = findByEmail(email);
+        return new GetUserDto(user.getEmail(),
+                user.getFullName(),
+                user.getId(),
+                user.getRole(),
+                user.getName(),
+                user.getFirstName()
+        );
     }
 
     public User findById(String id) {
@@ -41,13 +96,19 @@ public class UserService {
 
     public GetUserDto findUserById(String id) {
         User user = repository.findById(id).orElse(null);
-        return new GetUserDto(user.getEmail(),user.getFullName());
+        return new GetUserDto(user.getEmail(),
+                user.getFullName(),
+                user.getId(),
+                user.getRole(),
+                user.getName(),
+                user.getFirstName()
+        );
     }
 
-
-    public Boolean UpdateUser(UpdateUserDto newUser, String email, String id){
-        User userToUpdate = findById(id);
-        LocalDateTime date = LocalDateTime.now();
+    public Boolean UpdateUserByToken(UpdateUserDto newUser, String email){
+        User userToUpdate = findByEmail(email);
+        System.out.println(userToUpdate.getPassword());
+        //    LocalDateTime date = LocalDateTime.now();
         if(userToUpdate != null) {
             if (newUser.getEmail() != userToUpdate.getUsername()){
                 userToUpdate.setEmail(newUser.getEmail());
@@ -63,11 +124,38 @@ public class UserService {
     };
 
 
+    public Boolean UpdateUser(UpdateUserDto newUser, String email, String id){
+        User userToUpdate = findById(id);
+        if(userToUpdate != null) {
+            if (newUser.getEmail() != userToUpdate.getUsername()){
+                userToUpdate.setEmail(newUser.getEmail());
+            }
+            if(newUser.getFullName() != userToUpdate.getFullName())
+            {
+                userToUpdate.setFullName(newUser.getFullName());
+            }
+            if(newUser.getFirstName() != userToUpdate.getFirstName())
+            {
+                userToUpdate.setFirstName(newUser.getFirstName());
+            }
+            if(newUser.getName() != userToUpdate.getName())
+            {
+                userToUpdate.setName(newUser.getName());
+            }
+
+            repository.save(userToUpdate);
+            return true;
+        }
+        return false;
+    };
+
+
 
     public boolean UpdatePassword(String id, UpdatePasswordDto updatePassword){
         User userToUpdate = findById(id);
+        userToUpdate.getPassword();
         if(userToUpdate != null){
-            userToUpdate.setPasword(updatePassword.getPassword());
+            //    userToUpdate.setPasword(updatePassword.getPassword());
             repository.save(userToUpdate);
             return true;
         }

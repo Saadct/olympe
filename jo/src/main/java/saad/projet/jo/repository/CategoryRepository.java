@@ -1,6 +1,8 @@
 package saad.projet.jo.repository;
 
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import saad.projet.jo.model.Category;
@@ -17,4 +19,7 @@ public interface CategoryRepository extends JpaRepository <Category, String> {
 
 
     List<Category> findAll();
+
+    Page<Category> findAll(Pageable paging);
+
 }

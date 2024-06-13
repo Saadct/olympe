@@ -2,12 +2,15 @@ package saad.projet.jo.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import saad.projet.jo.dto.ticket.GetTicketDto;
 import saad.projet.jo.model.Category;
 import saad.projet.jo.service.CategoryService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,9 +24,21 @@ public class CategoryController {
         this.service = service;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping
     public ResponseEntity<List<Category>> findAll(){
-        return new ResponseEntity<>(service.findAllCategory(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(service.findAllCategory(), HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/{page}/{size}")
+    public ResponseEntity<List<Object>> findAllPaginated(@PathVariable("page") int page, @PathVariable("size") int size ){
+        int totalPage = service.getTotalPage(size);
+        Page<Category> pageResult = service.findAllCategoryPaginated(page, size);
+        List<Object> responseData = new ArrayList<>();
+        responseData.add(pageResult.getContent());
+        responseData.add(totalPage);
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
     @PostMapping

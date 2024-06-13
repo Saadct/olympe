@@ -7,6 +7,7 @@ public class LoginDto {
 
     private String fullName;
 
+
     public String getFullName() {
         return fullName;
     }

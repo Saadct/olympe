@@ -1,6 +1,9 @@
 package saad.projet.jo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import saad.projet.jo.model.Category;
@@ -23,6 +26,17 @@ public class CategoryService {
     public List<Category> findAllCategory () {
         System.out.println("Toutes les category");
         return repository.findAll();
+    }
+
+    public Page<Category> findAllCategoryPaginated (int page, int size) {
+        System.out.println("Toutes les category");
+        Pageable paging = PageRequest.of(page, size);
+        return repository.findAll(paging);
+    }
+
+    public int getTotalPage(int size) {
+        long totalItems = repository.count();
+        return (int) Math.ceil((double) totalItems / size);
     }
 
     public Category findCategoryById(String uuid) {

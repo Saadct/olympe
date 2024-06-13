@@ -3,6 +3,7 @@ package saad.projet.jo.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,15 +37,16 @@ public class Ticket {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateLastUpdate = null;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDate dateEvent = null;
+
     public Ticket() {}
 
     public Ticket(String name,
                   String firstName,
                   Evenement event,
-                  String state,
-                  Double price,
                   User user,
-                  LocalDateTime date
+                  LocalDate dateEvent
 
     )
     {
@@ -54,9 +56,17 @@ public class Ticket {
         this.state = state;
         this.price = price;
         this.user = user;
-        this.date = date;
+        this.dateEvent = dateEvent;
     }
 
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
     public Double getPrice() {
         return price;
@@ -118,5 +128,15 @@ public class Ticket {
         this.dateLastUpdate = dateLastUpdate;
     }
 
+    public void setDateEvent(LocalDate dateEvent) {
+        this.dateEvent = dateEvent;
+    }
 
+    public LocalDate getDateEvent() {
+        return dateEvent;
+    }
+
+    public LocalDateTime getDateLastUpdate() {
+        return dateLastUpdate;
+    }
 }

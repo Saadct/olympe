@@ -1,17 +1,21 @@
 package saad.projet.jo.controller;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import saad.projet.jo.dto.evenement.CreateEvent;
 import saad.projet.jo.dto.ticket.CreateTicket;
 import saad.projet.jo.model.Evenement;
+import saad.projet.jo.model.PageResponse;
 import saad.projet.jo.security.JwtService;
 import saad.projet.jo.service.EvenementService;
 import saad.projet.jo.service.TicketService;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -30,11 +34,48 @@ public class EvenementController {
         this.jwtService = jwtService;
     }
 
-
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping
     public ResponseEntity<List<Evenement>> findAll(){
-        return new ResponseEntity<>(service.findAllEvenement(), HttpStatus.FOUND);
+        return new ResponseEntity<>(service.findAllEvenement(), HttpStatus.OK);
     }
+
+    @PermitAll
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/details/{uuid}")
+    public ResponseEntity<Evenement> findById(@PathVariable("uuid") String uuid){
+        return new ResponseEntity<>(service.findEvenementById(uuid), HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/paginated/{page}/{size}")
+    public ResponseEntity<List<Object>> findAllPaginated(
+            @PathVariable int page,
+            @PathVariable int size) {
+        int totalPage = service.getTotalPage(size);
+        Page<Evenement> pageResult = service.findPaginatedEvenements(page, size);
+        List<Object> responseData = new ArrayList<>();
+        responseData.add(pageResult.getContent());
+        responseData.add(totalPage);
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/paginatedByCategory/{page}/{size}/{id}")
+    public ResponseEntity<List<Object>> findAllPaginatedByCategory(
+            @PathVariable("page") int page,
+            @PathVariable("size") int size,
+            @PathVariable("id") String id
+    ) {
+        int totalPage = service.getTotalPageByCategory(id, size);
+        Page<Evenement> pageResult = service.findByCategoryPaginatedEvenements(id, page, size);
+        List<Object> responseData = new ArrayList<>();
+        responseData.add(pageResult.getContent());
+        responseData.add(totalPage);
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
+    }
+
+
 
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("/available")
@@ -79,6 +120,18 @@ public class EvenementController {
         }
 
     }
+
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/checkavailable/{uuid}")
+    public ResponseEntity<?> checkIfRegistration(@PathVariable("uuid") String uuid){
+        if(service.checkAvailableEvent(uuid)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/{event_id}/acheterLotTicket")
     public ResponseEntity<String> buyLotTicket(@PathVariable("event_id") String eventId,
