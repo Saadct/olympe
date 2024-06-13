@@ -62,6 +62,8 @@ public class CategoryController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{uuid}")
     public ResponseEntity<?> delete(@PathVariable String uuid) {
         if (service.deleteCategory(uuid)) {

@@ -23,8 +23,6 @@ public class CreateEvent {
     @PositiveOrZero(message = "Le nombre total de sièges doit être positif ou égal à zéro.")
     private Integer totalSeats;
 
-    @NotNull(message = "Le nombre disponible de sièges ne doit pas être nul.")
-    @PositiveOrZero(message = "Le nombre disponible de sièges doit être positif ou égal à zéro.")
     private Integer availableSeats;
 
     @NotNull

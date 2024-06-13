@@ -88,7 +88,7 @@ public class EvenementService {
             Evenement evenement = new Evenement();
             evenement.setName(createEvent.getName());
             evenement.setTotalSeats(createEvent.getTotalSeats());
-            evenement.setAvailableSeats(createEvent.getAvailableSeats());
+            evenement.setAvailableSeats(createEvent.getTotalSeats());
         //    evenement.setStandartPrice(createEvent.getStandartPrice());
             evenement.setDateEvent(createEvent.getDateEvent());
             evenement.setHourBegin(createEvent.getHourBegin());
@@ -118,7 +118,7 @@ public class EvenementService {
         return false;
     }
 
-    @Transactional
+ //   @Transactional
     public Boolean deleteEvenement(String id) {
         System.out.println("evenement supprimée");
         Evenement evenementASupr = findEvenementById(id);
