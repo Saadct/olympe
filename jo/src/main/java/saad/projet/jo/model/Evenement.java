@@ -32,7 +32,7 @@ public class Evenement {
     @JoinColumn(name = "sport_id")
     private Category category;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="event_id")
     private List<Ticket> tickets = new ArrayList<>();
 

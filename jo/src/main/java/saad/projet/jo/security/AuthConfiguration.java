@@ -46,6 +46,8 @@ public class AuthConfiguration {
                         .requestMatchers(new AntPathRequestMatcher("/operations/**")).hasAnyAuthority("ADMIN")
                         .requestMatchers(new AntPathRequestMatcher("/evenements")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/categories")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/categories/**")).permitAll()
+
                         .requestMatchers(new AntPathRequestMatcher("/spectators")).hasAnyAuthority("ADMIN")
 
                 )//.anyRequest().authenticated())
@@ -63,7 +65,6 @@ public class AuthConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.addAllowedOrigin("http://localhost:3000");
         configuration.setAllowedOrigins(List.of("http://localhost:8080","http://localhost:3000"));
         configuration.setAllowedMethods(List.of("GET","POST","DELETE"));
         configuration.setAllowedHeaders(List.of("Authorization","Content-Type"));

@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import saad.projet.jo.dto.category.CategoryDto;
 import saad.projet.jo.model.Category;
 import saad.projet.jo.repository.CategoryRepository;
 
@@ -43,19 +44,29 @@ public class CategoryService {
         return repository.findOneByUuid(uuid).orElse(null);
     }
 
-    public Category createCategory (Category category){
-        System.out.println("Categorie créer");
-        return repository.save(category);
+    public boolean createCategory(CategoryDto category) {
+        try {
+            System.out.println("Catégorie crée");
+            Category c = new Category();
+            c.setName(category.getName());
+            c.setType(category.getType());
+            repository.save(c);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Erreur: " + e.getMessage());
+            return false;
+        }
     }
 
 
+
+
     @Transactional
-    public Boolean update(String uuid, Category category) {
+    public Boolean update(String uuid, CategoryDto category) {
 
         Category categoryAModifier = findCategoryById(uuid);
         if(categoryAModifier != null) {
             categoryAModifier.setName(category.getName());
-            categoryAModifier.setGender(category.getGender());
             categoryAModifier.setType(category.getType());
             repository.save(categoryAModifier);
             return true;

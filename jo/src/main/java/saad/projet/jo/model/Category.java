@@ -15,9 +15,6 @@ public class Category {
 
     private String type;
 
-    private String gender;
-
-
 
     @OneToMany
     @JoinColumn(name="sport_id")
@@ -27,16 +24,8 @@ public class Category {
         return name;
     }
 
-    public String getGender() {
-        return gender;
-    }
-
     public String getType() {
         return type;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public void setName(String name) {
