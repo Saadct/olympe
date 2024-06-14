@@ -88,6 +88,7 @@ public class EvenementController {
         return new ResponseEntity<>(service.findEvenementById(id), HttpStatus.FOUND);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody CreateEvent evenement, @RequestHeader("Authorization") String token) {
@@ -195,6 +196,8 @@ public class EvenementController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{uuid}")
     public ResponseEntity<?> mettreAJourTotalement(@PathVariable String uuid,

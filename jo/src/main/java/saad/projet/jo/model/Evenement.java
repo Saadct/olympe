@@ -29,7 +29,7 @@ public class Evenement {
     private LocalDateTime dateLastUpdate;
 
     @ManyToOne
-    @JoinColumn(name = "sport_id")
+    @JoinColumn(name = "category_Id")
     private Category category;
 
     @OneToMany(cascade = CascadeType.ALL)

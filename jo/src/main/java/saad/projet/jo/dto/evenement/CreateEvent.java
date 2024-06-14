@@ -10,7 +10,8 @@ import java.time.LocalTime;
 @Setter
 public class CreateEvent {
 
-    private String sportId;
+    @NotBlank
+    private String categoryId;
 
     private String state;
 
@@ -23,10 +24,10 @@ public class CreateEvent {
     @PositiveOrZero(message = "Le nombre total de sièges doit être positif ou égal à zéro.")
     private Integer totalSeats;
 
+
+
     private Integer availableSeats;
 
-    @NotNull
-    @Digits(integer = 10, fraction = 2, message = "Le prix standard doit être un nombre valide avec au maximum 10 chiffres et 2 chiffres après la virgule.")
     private Double standartPrice;
 
 
@@ -40,7 +41,9 @@ public class CreateEvent {
     @NotNull(message = "L'heure de fin ne doit pas être nulle.")
     private LocalTime hourEnding;
 
+    private String shortDescription;
 
+    private String longDescription;
 
     public Double getStandartPrice() {
         return standartPrice;
@@ -107,12 +110,28 @@ public class CreateEvent {
         return name;
     }
 
-    public String getSportId() {
-        return sportId;
+    public String getCategoryId() {
+        return categoryId;
     }
 
-    public void setSportId(String sportId) {
-        this.sportId = sportId;
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public void setLongDescription(String longDescription) {
+        this.longDescription = longDescription;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
+    }
+
+    public String getLongDescription() {
+        return longDescription;
+    }
+
+    public String getShortDescription() {
+        return shortDescription;
     }
 }
 

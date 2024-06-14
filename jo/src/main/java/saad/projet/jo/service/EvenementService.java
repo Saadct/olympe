@@ -94,8 +94,10 @@ public class EvenementService {
             evenement.setHourBegin(createEvent.getHourBegin());
             evenement.setHourEnding(createEvent.getHourEnding());
             evenement.setDateCreate(date);
+            evenement.setLongDescription(createEvent.getLongDescription());
+            evenement.setShortDescription(createEvent.getShortDescription());
             try {
-                evenement.setCategory(categoryService.findCategoryById(createEvent.getSportId()));
+                evenement.setCategory(categoryService.findCategoryById(createEvent.getCategoryId()));
             }catch (Exception e){
                 System.err.println("Erreur lors de l'ajout de la category à l'evenemment: " + e.getMessage());
             }
@@ -143,8 +145,10 @@ public class EvenementService {
             evenementAModifier.setHourBegin(createEvent.getHourBegin());
             evenementAModifier.setHourEnding(createEvent.getHourEnding());
             evenementAModifier.setDateLastUpdate(date);
+            evenementAModifier.setShortDescription(createEvent.getShortDescription());
+            evenementAModifier.setLongDescription(createEvent.getLongDescription());
             try {
-                evenementAModifier.setCategory(categoryService.findCategoryById(createEvent.getSportId()));
+                evenementAModifier.setCategory(categoryService.findCategoryById(createEvent.getCategoryId()));
             } catch (Exception e) {
                 System.err.println("Erreur lors de la mdoficiation de la category à l'evenemment: " + e.getMessage());
             }

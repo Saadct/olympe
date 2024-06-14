@@ -17,7 +17,7 @@ public class Category {
 
 
     @OneToMany
-    @JoinColumn(name="sport_id")
+    @JoinColumn(name="category_Id")
     private List<Evenement> evenements = new ArrayList<>();
 
     public String getName() {
