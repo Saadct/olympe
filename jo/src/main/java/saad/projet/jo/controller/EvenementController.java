@@ -7,10 +7,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import saad.projet.jo.dto.evenement.CreateEvent;
+import saad.projet.jo.dto.evenement.CreateEventDto;
+import saad.projet.jo.dto.evenement.UpdateEventDto;
 import saad.projet.jo.dto.ticket.CreateTicket;
 import saad.projet.jo.model.Evenement;
-import saad.projet.jo.model.PageResponse;
 import saad.projet.jo.security.JwtService;
 import saad.projet.jo.service.EvenementService;
 import saad.projet.jo.service.TicketService;
@@ -91,7 +91,7 @@ public class EvenementController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody CreateEvent evenement, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> create(@Valid @RequestBody CreateEventDto evenement, @RequestHeader("Authorization") String token) {
         if(service.createEvenement(evenement, jwtService.extractEmail(token))){
             return new ResponseEntity<>(HttpStatus.OK);
         }else{
@@ -159,18 +159,18 @@ public class EvenementController {
 
     }
 
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @PreAuthorize("hasRole('ADMIN')")
-    @PatchMapping("/{event_id}/improveSeats")
-    public ResponseEntity<String> improveSeats(@PathVariable("event_id") String eventId,
+    @PatchMapping("/{id}/updateSeats")
+    public ResponseEntity<?> improveSeats(@PathVariable("id") String eventId,
                                              @Valid @RequestBody Integer seats,
                                              @RequestHeader("Authorization") String token) {
-        //       return new ResponseEntity<>(ticketService.buyTickets(eventId,tickets), HttpStatus.CREATED);
         if (service.updateTotalSeats(eventId, seats, jwtService.extractEmail(token))) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Il n'y a plus de places disponibles pour cet événement.", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>( HttpStatus.NOT_ACCEPTABLE);
         }
-
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -201,7 +201,7 @@ public class EvenementController {
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{uuid}")
     public ResponseEntity<?> mettreAJourTotalement(@PathVariable String uuid,
-                                                   @Valid @RequestBody CreateEvent evenement,
+                                                   @Valid @RequestBody UpdateEventDto evenement,
                                                    @RequestHeader("Authorization") String token
     ){
         if (service.updateEvenement(uuid, evenement, jwtService.extractEmail(token))) {

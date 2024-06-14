@@ -23,35 +23,35 @@ public interface TicketRepository extends JpaRepository<Ticket, String> {
     @Override
     List<Ticket> findAll();
 
-
     List<Ticket> findAllByUserId(String id);
-
-  //  List<Ticket> findAllByUserIdPaginated(String id);
-
-  //  @Query("SELECT e FROM Ticket t WHERE t.dateEvent > CURRENT_DATE AND e.category = :category ORDER BY e.dateEvent ASC")
-  //  Page<Ticket> findAllByUserIdPaginatedAvailable(@Param("user") User user, Pageable pageable);
-
-    @Query("SELECT t FROM Ticket t WHERE t.user = :user and t.evenement = :evenement ORDER BY t.date ASC")
-    List<Ticket> findAllByUserAndEvenement(@Param("user") User user, @Param("evenement") Evenement evenement );
-
-
-    @Query("SELECT t FROM Ticket t WHERE t.user = :user ORDER BY t.date ASC")
-    Page<Ticket> findAllByUserPaginated(@Param("user") User user, Pageable pageable);
 
     @Query("SELECT COUNT(t) FROM Ticket t WHERE t.user = :user")
     long countByDateAfter(@Param("user") User user);
 
-    @Query("SELECT COUNT(t) FROM Ticket t WHERE t.date > CURRENT_DATE and t.user = :user")
+    @Query("SELECT COUNT(t) FROM Ticket t WHERE t.evenement = :evenement")
+    long countByEvenement(@Param("evenement") Evenement evenement);
+
+    @Query("SELECT COUNT(t) FROM Ticket t WHERE t.dateEvent > CURRENT_DATE and t.user = :user")
     long countByDateAfterAvailable(@Param("user") User user);
 
-    @Query("SELECT COUNT(t) FROM Ticket t WHERE t.date < CURRENT_DATE and t.user = :user")
+    @Query("SELECT COUNT(t) FROM Ticket t WHERE t.dateEvent < CURRENT_DATE and t.user = :user")
     long countByDateAfterNotAvailable(@Param("user") User user);
 
-    @Query("SELECT t FROM Ticket t WHERE t.date > CURRENT_DATE AND t.user = :user ORDER BY t.date ASC")
+    @Query("SELECT t FROM Ticket t WHERE t.dateEvent > CURRENT_DATE AND t.user = :user ORDER BY t.dateEvent ASC")
     Page<Ticket> findAllByUserPaginatedAvailable(@Param("user") User user, Pageable pageable);
 
-    @Query("SELECT t FROM Ticket t WHERE t.date < CURRENT_DATE AND t.user = :user ORDER BY t.date ASC")
+    @Query("SELECT t FROM Ticket t WHERE t.user = :user ORDER BY t.dateEvent ASC")
+    Page<Ticket> findAllByUserPaginated(@Param("user") User user, Pageable pageable);
+
+    @Query("SELECT t FROM Ticket t WHERE t.dateEvent < CURRENT_DATE AND t.user = :user ORDER BY t.dateEvent ASC")
     Page<Ticket> findAllByUserPaginatedNotAvailable(@Param("user") User user, Pageable pageable);
+
+    @Query("SELECT t FROM Ticket t WHERE t.user = :user and t.evenement = :evenement ORDER BY t.dateEvent ASC")
+    List<Ticket> findAllByUserAndEvenement(@Param("user") User user, @Param("evenement") Evenement evenement );
+
+    @Query("SELECT t FROM Ticket t WHERE t.evenement = :evenement ORDER BY t.dateEvent ASC")
+    Page<Ticket> findAllByEvenementPaginated(@Param("evenement") Evenement evenement, Pageable pageable);
+
 
 
 }

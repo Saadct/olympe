@@ -7,11 +7,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import saad.projet.jo.constants.State;
-import saad.projet.jo.dto.evenement.CreateEvent;
+import saad.projet.jo.dto.evenement.CreateEventDto;
+import saad.projet.jo.dto.evenement.UpdateEventDto;
 import saad.projet.jo.model.Evenement;
-import saad.projet.jo.model.Ticket;
-import saad.projet.jo.model.User;
 import saad.projet.jo.repository.EvenementRepository;
+import saad.projet.jo.repository.TicketRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,16 +22,19 @@ public class EvenementService {
     private final EvenementRepository repository;
     private final OperationService operationService;
     private final CategoryService categoryService;
+    private final TicketRepository ticketRepository;
 
     @Autowired
     public EvenementService(EvenementRepository repository,
                             OperationService operationService,
-                            CategoryService categoryService
+                            CategoryService categoryService,
+                            TicketRepository ticketRepository
 
     ) {
         this.operationService = operationService;
         this.repository = repository;
         this.categoryService = categoryService;
+        this.ticketRepository = ticketRepository;
     }
 
     public List<Evenement> findAllEvenement() {
@@ -80,7 +83,7 @@ public class EvenementService {
     */
 
 
-    public Boolean createEvenement(CreateEvent createEvent, String email) {
+    public Boolean createEvenement(CreateEventDto createEvent, String email) {
         System.out.println("Evenement créer");
         LocalDateTime date = LocalDateTime.now();
 
@@ -132,23 +135,31 @@ public class EvenementService {
     }
 
     @Transactional
-    public Boolean updateEvenement(String id, CreateEvent createEvent, String email) {
+    public Boolean updateEvenement(String id, UpdateEventDto updateEvent, String email) {
         Evenement evenementAModifier = findEvenementById(id);
         LocalDateTime date = LocalDateTime.now();
+        long coutInscription = ticketRepository.countByEvenement(evenementAModifier);
+        int totalseat = 0;
 
+        if(updateEvent.getTotalSeats() < coutInscription){
+            return false;
+        }
         try {
-            evenementAModifier.setName(createEvent.getName());
-            evenementAModifier.setTotalSeats(createEvent.getTotalSeats());
-            evenementAModifier.setAvailableSeats(createEvent.getAvailableSeats());
-        //    evenementAModifier.setStandartPrice(createEvent.getStandartPrice());
-            evenementAModifier.setDateEvent(createEvent.getDateEvent());
-            evenementAModifier.setHourBegin(createEvent.getHourBegin());
-            evenementAModifier.setHourEnding(createEvent.getHourEnding());
+            evenementAModifier.setName(updateEvent.getName());
+            evenementAModifier.setDateEvent(updateEvent.getDateEvent());
+            evenementAModifier.setHourBegin(updateEvent.getHourBegin());
+            evenementAModifier.setHourEnding(updateEvent.getHourEnding());
             evenementAModifier.setDateLastUpdate(date);
-            evenementAModifier.setShortDescription(createEvent.getShortDescription());
-            evenementAModifier.setLongDescription(createEvent.getLongDescription());
+            evenementAModifier.setShortDescription(updateEvent.getShortDescription());
+            evenementAModifier.setLongDescription(updateEvent.getLongDescription());
+
+
+            evenementAModifier.setTotalSeats(updateEvent.getTotalSeats());
+            evenementAModifier.setAvailableSeats(updateEvent.getTotalSeats() - (int)coutInscription );
+
+
             try {
-                evenementAModifier.setCategory(categoryService.findCategoryById(createEvent.getCategoryId()));
+                evenementAModifier.setCategory(categoryService.findCategoryById(updateEvent.getCategoryId()));
             } catch (Exception e) {
                 System.err.println("Erreur lors de la mdoficiation de la category à l'evenemment: " + e.getMessage());
             }
@@ -175,21 +186,24 @@ public class EvenementService {
         LocalDateTime date = LocalDateTime.now();
         try {
             Evenement evenement = findEvenementById(uuid);
-            Integer availableSeat = evenement.getAvailableSeats() + seat;
-            Integer totalSeat = evenement.getTotalSeats() + seat;
-
-            evenement.setAvailableSeats(availableSeat);
-            evenement.setTotalSeats(totalSeat);
+          /*  long incription = ticketRepository.countByEvenement(evenement);
+            Integer totalSeats = evenement.getTotalSeats();
+            Integer diff = evenement.getTotalSeats() - seat;
+            Integer seatNew = evenement.getTotalSeats() + seat;
+           */
+            evenement.setTotalSeats(evenement.getTotalSeats());
+            evenement.setAvailableSeats(evenement.getAvailableSeats() );
             evenement.setDateLastUpdate(date);
-
-            operationService.recordAction(State.Augmentation_place_total.toString(), date, email);
             repository.save(evenement);
             return true;
+
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return false;
         }
     }
+
+
 
     public boolean cancelEvent(String Id, String mail) {
         LocalDateTime date = LocalDateTime.now();

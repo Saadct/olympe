@@ -45,6 +45,7 @@ public class AuthConfiguration {
                         .requestMatchers(new AntPathRequestMatcher("/users/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/operations/**")).hasAnyAuthority("ADMIN")
                         .requestMatchers(new AntPathRequestMatcher("/evenements")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/tickets/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/categories")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/categories/**")).permitAll()
 

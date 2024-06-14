@@ -93,6 +93,10 @@ public class TicketService {
         return mappingToPageDto(tickets, paging);
     }
 
+
+
+
+
     public Page<GetTicketDto> getTicketByUserIdPaginated (String uuid, int size, int page){
         Pageable paging = PageRequest.of(page, size);
         User user = userService.findById(uuid);
@@ -114,6 +118,11 @@ public class TicketService {
         return mappingToPageDto(tickets, paging);
     }
 
+    public Page<GetTicketDto> findByEvenement(String evenementId, int size, int page){
+        Pageable paging = PageRequest.of(page, size);
+        Page<Ticket> tickets = repository.findAllByEvenementPaginated(evenementService.findEvenementById(evenementId), paging);
+        return mappingToPageDto(tickets, paging);
+    }
 
     public Page<GetTicketDto> mappingToPageDto (Page<Ticket> tickets, Pageable paging){
         List<GetTicketDto> getTicketsDto = new ArrayList<>();
@@ -139,6 +148,11 @@ public class TicketService {
 
     public int getTotalPageById(String uuid, int size) {
         long totalItems = repository.countByDateAfter(userService.findById(uuid));
+        return (int) Math.ceil((double) totalItems / size);
+    }
+
+    public int getTotalPageByEvenement(String uuid, int size) {
+        long totalItems = repository.countByEvenement(evenementService.findEvenementById(uuid));
         return (int) Math.ceil((double) totalItems / size);
     }
 
@@ -324,6 +338,8 @@ public class TicketService {
         }
         return false;
     }
+
+
 
 
 }

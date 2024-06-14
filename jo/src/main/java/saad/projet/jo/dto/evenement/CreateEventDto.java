@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 @Getter
 @Setter
-public class CreateEvent {
+public class CreateEventDto {
 
     @NotBlank
     private String categoryId;

@@ -2,14 +2,17 @@ package saad.projet.jo.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import saad.projet.jo.dto.ticket.GetTicketDto;
 import saad.projet.jo.model.Ticket;
 import saad.projet.jo.security.JwtService;
 import saad.projet.jo.service.TicketService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,7 +24,6 @@ public class TicketController {
 
     @Autowired
     public TicketController(TicketService service, JwtService jwtService){
-
         this.service = service;
         this.jwtService = jwtService;
     }
@@ -32,7 +34,6 @@ public class TicketController {
         List<Ticket> tickets = service.findAllTicket();
         return new ResponseEntity<>(tickets, HttpStatus.OK);
     }
-
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{uuid}")
@@ -50,6 +51,8 @@ public class TicketController {
     public ResponseEntity<Ticket> create(@Valid @RequestBody Ticket t) {
         return new ResponseEntity<>(service.createTicket(t), HttpStatus.CREATED);
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{uuid}")
     public ResponseEntity<?> delete(@PathVariable String uuid) {
@@ -80,5 +83,20 @@ public class TicketController {
             return new ResponseEntity<>("Il n'y a plus de places disponibles pour cet événement.", HttpStatus.NOT_ACCEPTABLE);
         }
 
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/paginated/{uuid}/{page}/{size}")
+    public ResponseEntity<List<Object>> findTicketByEvenement(
+            @PathVariable("page") int page,
+            @PathVariable("size") int size,
+            @PathVariable("uuid") String uuid){
+        int totalPage = service.getTotalPageByEvenement(uuid, size );
+        Page<GetTicketDto> pageResult = service.findByEvenement(uuid, size, page);
+        List<Object> responseData = new ArrayList<>();
+        responseData.add(pageResult.getContent());
+        responseData.add(totalPage);
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 }
