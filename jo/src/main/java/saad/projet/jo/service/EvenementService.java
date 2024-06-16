@@ -175,9 +175,10 @@ public class EvenementService {
     }
 
 
-    public void updateSeatsAvailable(String uuid, Integer billetCount) {
+    public void updateSeatsAvailable(String uuid) {
         Evenement evenement = findEvenementById(uuid);
-        Integer availableSeat = evenement.getAvailableSeats() - billetCount;
+        long coutInscription = ticketRepository.countByEvenement(evenement);
+        Integer availableSeat = evenement.getTotalSeats() - (int)coutInscription;
         evenement.setAvailableSeats(availableSeat);
         repository.save(evenement);
     }

@@ -48,6 +48,7 @@ public class EvenementController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
+    @PermitAll
     @GetMapping("/paginated/{page}/{size}")
     public ResponseEntity<List<Object>> findAllPaginated(
             @PathVariable int page,
@@ -61,6 +62,7 @@ public class EvenementController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/paginatedByCategory/{page}/{size}/{id}")
     public ResponseEntity<List<Object>> findAllPaginatedByCategory(
             @PathVariable("page") int page,

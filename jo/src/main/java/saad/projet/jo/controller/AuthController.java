@@ -34,6 +34,10 @@ public class AuthController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/signup")
     public ResponseEntity<User> register(@RequestBody @Valid RegisterDto registerUserDto) {
+        User userExisting = userService.findByEmail(registerUserDto.getEmail());
+        if (userExisting  != null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         User registeredUser = authentificationService.signup(registerUserDto);
         return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
     }
@@ -59,8 +63,6 @@ public class AuthController {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, jwtToken);
         headers.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.AUTHORIZATION); // Exposer l'en-tête d'autorisation
-
-
 
         return ResponseEntity.ok()
                 .headers(headers)

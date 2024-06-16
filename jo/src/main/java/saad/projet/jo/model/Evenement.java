@@ -28,7 +28,7 @@ public class Evenement {
     private LocalDateTime dateCreate;
     private LocalDateTime dateLastUpdate;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "category_Id")
     private Category category;
 

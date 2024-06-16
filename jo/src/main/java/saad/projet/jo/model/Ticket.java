@@ -23,11 +23,11 @@ public class Ticket {
     private String firstname;
 
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "event_id")
     private Evenement evenement;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
     private User user;
 

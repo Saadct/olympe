@@ -17,6 +17,7 @@ import saad.projet.jo.model.Ticket;
 import saad.projet.jo.model.User;
 import saad.projet.jo.repository.TicketRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -181,7 +182,7 @@ public class TicketService {
             Ticket boughtTicket = repository.save(ticket);
             Operation op = new Operation(State.Achat_Unique_Ticket.toString(), date, user);
             operationService.createOperation(op);
-            evenementService.updateSeatsAvailable(eventId, 1);
+            evenementService.updateSeatsAvailable(eventId);
             return true;
         }
         return false;
@@ -210,7 +211,7 @@ public class TicketService {
                         event.getDateEvent()
                 );
                 repository.save(ticket);
-                evenementService.updateSeatsAvailable(eventId, 1);
+                evenementService.updateSeatsAvailable(eventId);
                 return true;
             }
         }
@@ -237,7 +238,7 @@ public class TicketService {
             Ticket boughtTicket = repository.save(ticket);
             Operation op = new Operation(State.Reservation_Ticket.toString(), date, user);
             operationService.createOperation(op);
-            evenementService.updateSeatsAvailable(eventId, 1);
+            evenementService.updateSeatsAvailable(eventId);
             return true;
         }
         return false;
@@ -292,7 +293,7 @@ public class TicketService {
             String type = "Achat par lot de ticket " + tickets.size() + " tickets";
             Operation op = new Operation(type, date, user);
             operationService.createOperation(op);
-            evenementService.updateSeatsAvailable(eventId, tickets.size());
+            evenementService.updateSeatsAvailable(eventId);
             return true;
         }
         return false;
@@ -300,14 +301,27 @@ public class TicketService {
 
 
     @Transactional
-    public Boolean CancelTicket (String id){
-        System.out.println("ticket supprimée");
+    public Boolean CancelTicketByToken (String email, String id){
+        User user = userService.findByEmail(email);
         Ticket ticket = findTicketById(id);
-        LocalDateTime date = LocalDateTime.now();
-        if(ticket != null && date.isBefore(ticket.getDate())) {
+        LocalDate date = LocalDate.now();
+        if(ticket != null && date.isBefore(ticket.getDateEvent()) && ticket.getUser() == user) {
             repository.deleteById(id);
             Evenement evenement = ticket.getEvenement();
-            evenementService.updateSeatsAvailable(evenement.getUuid(), 1);
+            evenementService.updateSeatsAvailable(evenement.getUuid());
+            return true;
+        }
+        return false;
+    }
+
+
+    public Boolean CancelTicketById (String id){
+        Ticket ticket = findTicketById(id);
+        LocalDate date = LocalDate.now();
+        if(ticket != null && date.isBefore(ticket.getDateEvent())) {
+            Evenement evenement = ticket.getEvenement();
+            repository.deleteById(id);
+            evenementService.updateSeatsAvailable(evenement.getUuid());
             return true;
         }
         return false;
@@ -321,7 +335,7 @@ public class TicketService {
         if(ticket != null) {
             repository.deleteById(id);
             Evenement evenement = ticket.getEvenement();
-            evenementService.updateSeatsAvailable(evenement.getUuid(), 1);
+            evenementService.updateSeatsAvailable(evenement.getUuid());
             return true;
         }
         return false;

@@ -15,7 +15,7 @@ public class Operation {
 
     private LocalDateTime date;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
     private User user;
 

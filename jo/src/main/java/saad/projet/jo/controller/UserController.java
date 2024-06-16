@@ -142,8 +142,20 @@ public class UserController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/ticket/me/cancel/{uuid}")
-    public ResponseEntity<?> updateByToken(@PathVariable("uuid") String uuid){
-        if(ticketService.CancelTicket(uuid)){
+    public ResponseEntity<?> cancelByToken(@RequestHeader("Authorization") String token,
+                                           @PathVariable("uuid") String uuid){
+        if(ticketService.CancelTicketByToken(jwtService.extractEmail(token), uuid)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/ticket/cancel-subscription/{uuid}")
+    public ResponseEntity<?> cancelById(@PathVariable("uuid") String uuid){
+        if(ticketService.CancelTicketById(uuid)){
             return new ResponseEntity<>(HttpStatus.OK);
         }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -180,7 +192,7 @@ public class UserController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PreAuthorize("hasRole('USER')")
-    @GetMapping("/ticket/subscription/{uuid}")
+    @PostMapping("/ticket/subscription/{uuid}")
     public ResponseEntity<?> subscription(@RequestHeader("Authorization") String token, @PathVariable("uuid") String uuid){
         if(ticketService.createTicket(jwtService.extractEmail(token), uuid)){
             return new ResponseEntity<>(HttpStatus.OK);
@@ -200,12 +212,10 @@ public class UserController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/{id}/changeRole")
+    @PatchMapping("/change-role/{id}")
     public ResponseEntity<?> toggleRoleUser(@RequestHeader("Authorization") String token, @PathVariable("id") String id){
-        //  String token = authorizationHeader.substring(7);
-        // System.out.println(token);
-        //  System.out.println(jwtService.extractUsername(token));
         if(service.togleRole(id, jwtService.extractEmail(token))){
             return new ResponseEntity<>(HttpStatus.OK);
         }
