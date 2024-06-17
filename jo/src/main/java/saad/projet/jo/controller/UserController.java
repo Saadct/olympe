@@ -21,6 +21,7 @@ import saad.projet.jo.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -40,22 +41,16 @@ public class UserController {
         this.ticketService = ticketService;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PreAuthorize("hasRole('USER')")
     @GetMapping("/me")
     public ResponseEntity<GetUserDto> findByToken(@RequestHeader("Authorization") String token){
         return new ResponseEntity<>(service.findByToken(jwtService.extractEmail(token)), HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping()
     public ResponseEntity<List<GetUserDto>> findAll(@RequestHeader("Authorization") String token){
         return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/paginated/{page}/{size}")
     public ResponseEntity<List<Object>> findAllPaginated(@RequestHeader("Authorization") String token,
                                                              @PathVariable("page") int page,
@@ -69,8 +64,6 @@ public class UserController {
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PreAuthorize("hasRole('USER')")
     @PutMapping("/me")
     public ResponseEntity<?> updateByToken(@RequestHeader("Authorization") String token, @Valid @RequestBody UpdateUserDto user){
         if(service.UpdateUserByToken(user, jwtService.extractEmail(token))){
@@ -80,21 +73,16 @@ public class UserController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/informations/{uuid}")
     public ResponseEntity<GetUserDto> findUserById(@PathVariable("uuid") String uuid, @RequestHeader("Authorization") String token){
         return new ResponseEntity<>(service.findUserById(uuid), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("/tickets/{uuid}")
     public ResponseEntity<List<GetTicketDto>> findTicketById(@PathVariable("uuid") String uuid, @RequestHeader("Authorization") String token){
         return new ResponseEntity<>(ticketService.getTicketByUserId(uuid), HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PreAuthorize("hasRole('USER')")
     @GetMapping("/tickets/me/{page}/{size}")
     public ResponseEntity<List<Object>> findTicketByToken(
             @PathVariable("page") int page,
@@ -109,8 +97,6 @@ public class UserController {
     }
 
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PreAuthorize("hasRole('USER')")
     @GetMapping("/tickets/me/available/{page}/{size}")
     public ResponseEntity<List<Object>> findTicketByTokenAvailable(
             @PathVariable("page") int page,
@@ -124,8 +110,6 @@ public class UserController {
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PreAuthorize("hasRole('USER')")
     @GetMapping("/tickets/me/notavailable/{page}/{size}")
     public ResponseEntity<List<Object>> findTicketByTokenNotAvailable(
             @PathVariable("page") int page,
@@ -139,8 +123,6 @@ public class UserController {
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/ticket/me/cancel/{uuid}")
     public ResponseEntity<?> cancelByToken(@RequestHeader("Authorization") String token,
                                            @PathVariable("uuid") String uuid){
@@ -151,8 +133,6 @@ public class UserController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/ticket/cancel-subscription/{uuid}")
     public ResponseEntity<?> cancelById(@PathVariable("uuid") String uuid){
         if(ticketService.CancelTicketById(uuid)){
@@ -163,7 +143,6 @@ public class UserController {
     }
 
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/tickets/{uuid}/{page}/{size}")
     public ResponseEntity<List<Object>> findTicketById(
@@ -179,8 +158,6 @@ public class UserController {
     }
 
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PreAuthorize("hasRole('USER')")
     @GetMapping("/ticket/checkregistration/{uuid}")
     public ResponseEntity<?> checkIfRegistration(@RequestHeader("Authorization") String token, @PathVariable("uuid") String uuid){
         if(ticketService.checkRegistration(jwtService.extractEmail(token), uuid)){
@@ -190,8 +167,6 @@ public class UserController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PreAuthorize("hasRole('USER')")
     @PostMapping("/ticket/subscription/{uuid}")
     public ResponseEntity<?> subscription(@RequestHeader("Authorization") String token, @PathVariable("uuid") String uuid){
         if(ticketService.createTicket(jwtService.extractEmail(token), uuid)){
@@ -201,7 +176,6 @@ public class UserController {
         }
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<?> CreateUserByAdmin(@RequestHeader("Authorization") String token, @RequestBody RegisterDto user){
         if(service.createUserAdmin(user, jwtService.extractEmail(token))){
@@ -212,8 +186,6 @@ public class UserController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/change-role/{id}")
     public ResponseEntity<?> toggleRoleUser(@RequestHeader("Authorization") String token, @PathVariable("id") String id){
         if(service.togleRole(id, jwtService.extractEmail(token))){
@@ -224,8 +196,6 @@ public class UserController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@RequestHeader("Authorization") String token, @PathVariable("id") String id, @Valid @RequestBody UpdateUserDto user){
         if(service.UpdateUser(user, jwtService.extractEmail(token), id)){
@@ -235,7 +205,6 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @PatchMapping("/{id}/updatePassword")
     public ResponseEntity<?> updatePassword(@RequestHeader("Authorization") String token, @PathVariable("id") String id, @Valid @RequestBody UpdatePasswordDto password){
         if(service.UpdatePassword(id, password)){

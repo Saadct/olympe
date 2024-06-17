@@ -74,7 +74,7 @@ public class CategoryService {
         return false;
     }
 
-    @Transactional
+
     public boolean deleteCategory(String id) {
         System.out.println("Catégorie supprimée");
         Optional<Category> categoryASupprimer = repository.findById(id);

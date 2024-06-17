@@ -1,6 +1,8 @@
 package saad.projet.jo.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +18,9 @@ public class Category {
     private String type;
 
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="category_Id")
-    private List<Evenement> evenements = new ArrayList<>();
+    private List<Event> evenements = new ArrayList<>();
 
     public String getName() {
         return name;

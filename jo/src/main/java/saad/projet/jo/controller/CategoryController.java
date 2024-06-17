@@ -15,6 +15,7 @@ import saad.projet.jo.service.CategoryService;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
@@ -26,21 +27,18 @@ public class CategoryController {
         this.service = service;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+
     @GetMapping
     public ResponseEntity<List<Category>> findAll(){
         return new ResponseEntity<>(service.findAllCategory(), HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{id}")
     public ResponseEntity<Category> findById(@PathVariable("id") String id){
         return new ResponseEntity<>(service.findCategoryById(id), HttpStatus.OK);
     }
 
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/paginated/{page}/{size}")
     public ResponseEntity<List<Object>> findAllPaginated(@PathVariable("page") int page, @PathVariable("size") int size ){
         int totalPage = service.getTotalPage(size);
@@ -51,9 +49,7 @@ public class CategoryController {
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<?> create(@Valid @RequestBody CategoryDto category) {
         if(service.createCategory(category)){
             return new ResponseEntity<>(HttpStatus.OK);
@@ -62,9 +58,8 @@ public class CategoryController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/{uuid}")
+
+    @DeleteMapping("/delete/{uuid}")
     public ResponseEntity<?> delete(@PathVariable String uuid) {
         if (service.deleteCategory(uuid)) {
             return new ResponseEntity<>(HttpStatus.OK);
@@ -73,9 +68,7 @@ public class CategoryController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/{uuid}")
+    @PutMapping("/update/{uuid}")
     public ResponseEntity<?> mettreAJourTotalement(@PathVariable String uuid,
                                                    @Valid @RequestBody CategoryDto category){
         if (service.update(uuid, category)) {

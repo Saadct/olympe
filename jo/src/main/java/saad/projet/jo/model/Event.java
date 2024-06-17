@@ -1,32 +1,31 @@
 package saad.projet.jo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Evenement {
+public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String uuid;
-    private String state;
     private String name;
     private String shortDescription;
     private String longDescription;
     private Integer totalSeats;
     private Integer availableSeats;
-    private Double standartPrice;
     private LocalDate dateEvent;
     private LocalTime hourBegin;
     private LocalTime hourEnding;
-    private LocalDateTime dateCreate;
-    private LocalDateTime dateLastUpdate;
+    private LocalDateTime createdAt;
+    private LocalDateTime updateAt;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "category_Id")
@@ -35,14 +34,6 @@ public class Evenement {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="event_id")
     private List<Ticket> tickets = new ArrayList<>();
-
-    public Double getStandartPrice() {
-        return standartPrice;
-    }
-
-    public void setStandartPrice(Double standartPrice) {
-        standartPrice = standartPrice;
-    }
 
     public Integer getAvailableSeats() {
         return availableSeats;
@@ -62,30 +53,6 @@ public class Evenement {
 
     public void setTotalSeats(Integer totalSeats) {
         this.totalSeats = totalSeats;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public LocalDateTime getDateCreate() {
-        return dateCreate;
-    }
-
-    public void setDateCreate(LocalDateTime dateCreate) {
-        this.dateCreate = dateCreate;
-    }
-
-    public LocalDateTime getDateLastUpdate() {
-        return dateLastUpdate;
-    }
-
-    public void setDateLastUpdate(LocalDateTime dateLastUpdate) {
-        this.dateLastUpdate = dateLastUpdate;
     }
 
     public LocalTime getHourBegin() {
@@ -142,5 +109,21 @@ public class Evenement {
 
     public void setShortDescription(String shortDescription) {
         this.shortDescription = shortDescription;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(LocalDateTime updateAt) {
+        this.updateAt = updateAt;
     }
 }

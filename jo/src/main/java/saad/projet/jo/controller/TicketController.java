@@ -15,6 +15,7 @@ import saad.projet.jo.service.TicketService;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/tickets")
 public class TicketController {
@@ -27,15 +28,15 @@ public class TicketController {
         this.service = service;
         this.jwtService = jwtService;
     }
+/*
+    TODO futur
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<Ticket>> findAll(){
         List<Ticket> tickets = service.findAllTicket();
         return new ResponseEntity<>(tickets, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{uuid}")
     public ResponseEntity<Ticket> findById(@PathVariable("uuid") String uuid) {
         Ticket ticket = service.findTicketById(uuid);
@@ -45,16 +46,15 @@ public class TicketController {
             return new ResponseEntity<>(ticket, HttpStatus.OK);
         }
     }
+*/
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Ticket> create(@Valid @RequestBody Ticket t) {
         return new ResponseEntity<>(service.createTicket(t), HttpStatus.CREATED);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/{uuid}")
+
+    @DeleteMapping("/delete/{uuid}")
     public ResponseEntity<?> delete(@PathVariable String uuid) {
         if (service.deleteTicket(uuid)) {
             return new ResponseEntity<>(HttpStatus.OK);
@@ -63,7 +63,8 @@ public class TicketController {
         }
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    /*
+    TODO futur
     @PutMapping("/{uuid}")
     public ResponseEntity<?> mettreAJourTotalement(@PathVariable String uuid,
                                                    @Valid @RequestBody Ticket t){
@@ -73,20 +74,7 @@ public class TicketController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    @PatchMapping("/{ticketId}/paidBookTicket")
-    public ResponseEntity<String> bookTicket(@PathVariable("ticketId") String ticketId,
-                                             @RequestHeader("Authorization") String token) {
-        if (service.paidBookTicket(ticketId,jwtService.extractEmail(token))) {
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>("Il n'y a plus de places disponibles pour cet événement.", HttpStatus.NOT_ACCEPTABLE);
-        }
-
-    }
-
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PreAuthorize("hasRole('ADMIN')")
+*/
     @GetMapping("/paginated/{uuid}/{page}/{size}")
     public ResponseEntity<List<Object>> findTicketByEvenement(
             @PathVariable("page") int page,

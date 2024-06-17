@@ -25,7 +25,7 @@ public class Ticket {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "event_id")
-    private Evenement evenement;
+    private Event evenement;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
@@ -44,7 +44,7 @@ public class Ticket {
 
     public Ticket(String name,
                   String firstName,
-                  Evenement event,
+                  Event event,
                   User user,
                   LocalDate dateEvent
 
@@ -88,11 +88,11 @@ public class Ticket {
         return firstname;
     }
 
-    public Evenement getEvenement() {
+    public Event getEvenement() {
         return evenement;
     }
 
-    public void setEvenement(Evenement evenement) {
+    public void setEvenement(Event evenement) {
         this.evenement = evenement;
     }
 

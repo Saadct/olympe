@@ -1,6 +1,7 @@
 package saad.projet.jo.dto.ticket;
 
-import saad.projet.jo.model.Evenement;
+import saad.projet.jo.model.Event;
+import saad.projet.jo.model.Event;
 
 public class GetTicketDto {
 
@@ -15,7 +16,7 @@ public class GetTicketDto {
 
     private String firstname;
 
-    private Evenement evenement;
+    private Event evenement;
 
     public String getUuid() {
         return uuid;
@@ -37,7 +38,7 @@ public class GetTicketDto {
         return price;
     }
 
-    public Evenement getEvenement() {
+    public Event getEvenement() {
         return evenement;
     }
 
@@ -45,7 +46,7 @@ public class GetTicketDto {
         return firstname;
     }
 
-    public void setEvenement(Evenement evenement) {
+    public void setEvenement(Event evenement) {
         this.evenement = evenement;
     }
 

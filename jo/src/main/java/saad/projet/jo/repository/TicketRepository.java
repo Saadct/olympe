@@ -7,8 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import saad.projet.jo.model.Category;
-import saad.projet.jo.model.Evenement;
+import saad.projet.jo.model.Event;
 import saad.projet.jo.model.Ticket;
 import saad.projet.jo.model.User;
 
@@ -23,13 +22,16 @@ public interface TicketRepository extends JpaRepository<Ticket, String> {
     @Override
     List<Ticket> findAll();
 
+    List<Ticket> findAllByEvenement(Event evenement);
+
+
     List<Ticket> findAllByUserId(String id);
 
     @Query("SELECT COUNT(t) FROM Ticket t WHERE t.user = :user")
     long countByDateAfter(@Param("user") User user);
 
     @Query("SELECT COUNT(t) FROM Ticket t WHERE t.evenement = :evenement")
-    long countByEvenement(@Param("evenement") Evenement evenement);
+    long countByEvenement(@Param("evenement") Event evenement);
 
     @Query("SELECT COUNT(t) FROM Ticket t WHERE t.dateEvent > CURRENT_DATE and t.user = :user")
     long countByDateAfterAvailable(@Param("user") User user);
@@ -47,10 +49,10 @@ public interface TicketRepository extends JpaRepository<Ticket, String> {
     Page<Ticket> findAllByUserPaginatedNotAvailable(@Param("user") User user, Pageable pageable);
 
     @Query("SELECT t FROM Ticket t WHERE t.user = :user and t.evenement = :evenement ORDER BY t.dateEvent ASC")
-    List<Ticket> findAllByUserAndEvenement(@Param("user") User user, @Param("evenement") Evenement evenement );
+    List<Ticket> findAllByUserAndEvenement(@Param("user") User user, @Param("evenement") Event evenement );
 
     @Query("SELECT t FROM Ticket t WHERE t.evenement = :evenement ORDER BY t.dateEvent ASC")
-    Page<Ticket> findAllByEvenementPaginated(@Param("evenement") Evenement evenement, Pageable pageable);
+    Page<Ticket> findAllByEvenementPaginated(@Param("evenement") Event evenement, Pageable pageable);
 
 
 

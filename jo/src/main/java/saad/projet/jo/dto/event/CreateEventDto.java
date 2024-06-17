@@ -1,4 +1,4 @@
-package saad.projet.jo.dto.evenement;
+package saad.projet.jo.dto.event;
 
 import jakarta.validation.constraints.*;
 import lombok.Getter;
@@ -8,28 +8,30 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 @Getter
 @Setter
-public class UpdateEventDto {
+public class CreateEventDto {
 
     @NotBlank
     private String categoryId;
 
     private String state;
 
-    @NotNull(message = "Le nombre total de sièges ne doit pas être nul.")
-    @PositiveOrZero(message = "Le nombre total de sièges doit être positif ou égal à zéro.")
-    private Integer totalSeats;
-
-    private Integer availableSeats;
-
-
-
     @NotBlank
     @Size(min=1 , max=25)
     @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "Le nom ne doit contenir que des lettres et des chiffres.")
     private String name;
 
+    @NotNull(message = "Le nombre total de sièges ne doit pas être nul.")
+    @PositiveOrZero(message = "Le nombre total de sièges doit être positif ou égal à zéro.")
+    private Integer totalSeats;
 
-    @NotNull(message = "La date de l'événement ne doit pas être nulle.")
+
+
+    private Integer availableSeats;
+
+    private Double standartPrice;
+
+
+  //  @NotNull(message = "La date de l'événement ne doit pas être nulle.")
     @FutureOrPresent(message = "La date de l'événement doit être dans le présent ou dans le futur.")
     private LocalDate dateEvent;
 
@@ -42,6 +44,31 @@ public class UpdateEventDto {
     private String shortDescription;
 
     private String longDescription;
+
+    public Double getStandartPrice() {
+        return standartPrice;
+    }
+
+    public void setStandartPrice(Double standartPrice) {
+        standartPrice = standartPrice;
+    }
+
+    public Integer getAvailableSeats() {
+        return availableSeats;
+    }
+
+    public Integer getTotalSeats() {
+        return totalSeats;
+    }
+
+
+    public void setAvailableSeats(Integer availableSeats) {
+        this.availableSeats = availableSeats;
+    }
+
+    public void setTotalSeats(Integer totalSeats) {
+        this.totalSeats = totalSeats;
+    }
 
     public String getState() {
         return state;
@@ -105,22 +132,6 @@ public class UpdateEventDto {
 
     public String getShortDescription() {
         return shortDescription;
-    }
-
-    public Integer getAvailableSeats() {
-        return availableSeats;
-    }
-
-    public Integer getTotalSeats() {
-        return totalSeats;
-    }
-
-    public void setAvailableSeats(Integer availableSeats) {
-        this.availableSeats = availableSeats;
-    }
-
-    public void setTotalSeats(Integer totalSeats) {
-        this.totalSeats = totalSeats;
     }
 }
 

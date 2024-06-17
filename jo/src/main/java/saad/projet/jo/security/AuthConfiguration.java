@@ -36,20 +36,64 @@ public class AuthConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests.
+                    requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 
-                        requestMatchers(new AntPathRequestMatcher("/evenements/**")).permitAll()
-                  //
+                                //auth
+                    .requestMatchers(new AntPathRequestMatcher("/auth/login")).permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/auth/signup")).permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/auth/updatePassword")).hasAnyAuthority("ADMIN","USER")
 
-                    //   .requestMatchers(new AntPathRequestMatcher("/evenements/**")).hasAnyAuthority("USER")
-                        .requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/users/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/operations/**")).hasAnyAuthority("ADMIN")
-                        .requestMatchers(new AntPathRequestMatcher("/evenements")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/tickets/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/categories")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/categories/**")).permitAll()
+                            //users
+                    .requestMatchers(new AntPathRequestMatcher("/users/me")).hasAnyAuthority("ADMIN","USER")
+                    .requestMatchers(new AntPathRequestMatcher("/users")).hasAuthority("ADMIN")
+                    .requestMatchers(new AntPathRequestMatcher("/users/paginated/**")).hasAuthority("ADMIN")
+                    .requestMatchers(new AntPathRequestMatcher("/users/informations/**")).hasAuthority("ADMIN")
+                    .requestMatchers(new AntPathRequestMatcher("/users/change-role/**")).hasAuthority("ADMIN")
+                    .requestMatchers(new AntPathRequestMatcher("/users/tickets/me/**")).hasAnyAuthority("ADMIN","USER")
+                    .requestMatchers(new AntPathRequestMatcher("/users/ticket/me/**")).hasAnyAuthority("ADMIN","USER")
+                    .requestMatchers(new AntPathRequestMatcher("/users/ticket/subscription/**")).hasAnyAuthority("ADMIN","USER")
+                    .requestMatchers(new AntPathRequestMatcher("/users/ticket/cancel-subscription/**")).hasAuthority("ADMIN")
+                    .requestMatchers(new AntPathRequestMatcher("/users/ticket/checkregistration/**")).hasAnyAuthority("ADMIN","USER")
 
-                        .requestMatchers(new AntPathRequestMatcher("/spectators")).hasAnyAuthority("ADMIN")
+                        //tickets
+                    .requestMatchers(new AntPathRequestMatcher("/tickets")).hasAnyAuthority("ADMIN","USER")
+                    .requestMatchers(new AntPathRequestMatcher("/delete/{uuid}")).hasAnyAuthority("ADMIN")
+                    .requestMatchers(new AntPathRequestMatcher("/tickets/**")).hasAuthority("ADMIN")
+
+                        //evenement
+
+                    .requestMatchers(new AntPathRequestMatcher("/evenements")).hasAuthority("ADMIN")
+                    .requestMatchers(new AntPathRequestMatcher("/evenements/paginated/{page}/{size}")).permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/evenements/paginatedByCategory/{page}/{size}/{id}")).permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/evenements/checkavailable/{uuid}")).permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/evenements/update/**")).hasAuthority("ADMIN")
+                    .requestMatchers(new AntPathRequestMatcher("/evenements/delete/**")).hasAuthority("ADMIN")
+                    .requestMatchers(new AntPathRequestMatcher("/evenements/create/**")).hasAuthority("ADMIN")
+                    .requestMatchers(new AntPathRequestMatcher("/evenements/check-category/**")).hasAuthority("ADMIN")
+                    .requestMatchers(new AntPathRequestMatcher("/evenements/details/**")).permitAll()
+
+                        // categories
+                    .requestMatchers(new AntPathRequestMatcher("/categories")).permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/categories/{id}")).permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/categories/paginated/{page}/{size}")).permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/categories/create/**")).hasAuthority("ADMIN")
+                    .requestMatchers(new AntPathRequestMatcher("/categories/update/**")).hasAuthority("ADMIN")
+                    .requestMatchers(new AntPathRequestMatcher("/categories/delete/**")).hasAuthority("ADMIN")
+
+                        // operations
+                    .requestMatchers(new AntPathRequestMatcher("/operations/**")).hasAuthority("ADMIN")
+
+
+
+
+
+                        //   .requestMatchers(new AntPathRequestMatcher("/evenements/**")).hasAnyAuthority("USER")
+                      //  .requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll()
+                      //  .requestMatchers(new AntPathRequestMatcher("/users/**")).permitAll()
+                      //  .requestMatchers(new AntPathRequestMatcher("/evenements")).permitAll()
+                       // .requestMatchers(new AntPathRequestMatcher("/tickets/**")).permitAll()
+                       // .requestMatchers(new AntPathRequestMatcher("/categories")).permitAll()
+                      //  .requestMatchers(new AntPathRequestMatcher("/categories/**")).permitAll()
 
                 )//.anyRequest().authenticated())
                 //    requests.requestMatchers(new AntPathRequestMatcher("/students/**")).hasAuthority("ADMIN"))
