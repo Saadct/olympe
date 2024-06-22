@@ -17,6 +17,7 @@ import saad.projet.jo.security.AuthService;
 import saad.projet.jo.security.JwtService;
 import saad.projet.jo.service.UserService;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/auth")
 @RestController
 public class AuthController {
@@ -31,7 +32,6 @@ public class AuthController {
         this.userService = userService;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/signup")
     public ResponseEntity<User> register(@RequestBody @Valid RegisterDto registerUserDto) {
         User userExisting = userService.findByEmail(registerUserDto.getEmail());
@@ -42,7 +42,6 @@ public class AuthController {
         return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> authenticate(
             @RequestBody LoginDto loginUserDto) {

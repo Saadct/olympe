@@ -46,7 +46,6 @@ public class CategoryService {
 
     public boolean createCategory(CategoryDto category) {
         try {
-            System.out.println("Catégorie crée");
             Category c = new Category();
             c.setName(category.getName());
             c.setType(category.getType());
@@ -76,7 +75,6 @@ public class CategoryService {
 
 
     public boolean deleteCategory(String id) {
-        System.out.println("Catégorie supprimée");
         Optional<Category> categoryASupprimer = repository.findById(id);
         if(categoryASupprimer != null) {
             repository.deleteById(id);

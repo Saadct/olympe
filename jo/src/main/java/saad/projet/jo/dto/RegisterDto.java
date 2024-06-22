@@ -22,7 +22,6 @@ public class RegisterDto {
     private String firstName;
 
 
-
     public String getPassword() {
         return password;
     }

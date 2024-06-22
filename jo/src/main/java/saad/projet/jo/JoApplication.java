@@ -15,6 +15,6 @@ public class JoApplication {
 
 	@RequestMapping("/")
 	public String home(){
-		return "hello word";
+		return "projet olympe";
 	}
 }

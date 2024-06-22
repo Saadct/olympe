@@ -45,6 +45,8 @@ public class AuthConfiguration {
 
                             //users
                     .requestMatchers(new AntPathRequestMatcher("/users/me")).hasAnyAuthority("ADMIN","USER")
+                    .requestMatchers(new AntPathRequestMatcher("/users/check-connected")).hasAnyAuthority("ADMIN","USER")
+                    .requestMatchers(new AntPathRequestMatcher("/users/check-connected-admin")).hasAuthority("ADMIN")
                     .requestMatchers(new AntPathRequestMatcher("/users")).hasAuthority("ADMIN")
                     .requestMatchers(new AntPathRequestMatcher("/users/paginated/**")).hasAuthority("ADMIN")
                     .requestMatchers(new AntPathRequestMatcher("/users/informations/**")).hasAuthority("ADMIN")

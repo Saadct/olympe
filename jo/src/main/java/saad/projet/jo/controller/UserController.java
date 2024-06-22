@@ -46,6 +46,16 @@ public class UserController {
         return new ResponseEntity<>(service.findByToken(jwtService.extractEmail(token)), HttpStatus.OK);
     }
 
+    @GetMapping("/check-connected")
+    public ResponseEntity<?> checkConected(@RequestHeader("Authorization") String token){
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/check-connected-admin")
+    public ResponseEntity<?> checkConectedAdmin(@RequestHeader("Authorization") String token){
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping()
     public ResponseEntity<List<GetUserDto>> findAll(@RequestHeader("Authorization") String token){
         return new ResponseEntity<>(service.findAll(), HttpStatus.OK);

@@ -24,14 +24,6 @@ public class CreateEventDto {
     @PositiveOrZero(message = "Le nombre total de sièges doit être positif ou égal à zéro.")
     private Integer totalSeats;
 
-
-
-    private Integer availableSeats;
-
-    private Double standartPrice;
-
-
-  //  @NotNull(message = "La date de l'événement ne doit pas être nulle.")
     @FutureOrPresent(message = "La date de l'événement doit être dans le présent ou dans le futur.")
     private LocalDate dateEvent;
 
@@ -45,25 +37,8 @@ public class CreateEventDto {
 
     private String longDescription;
 
-    public Double getStandartPrice() {
-        return standartPrice;
-    }
-
-    public void setStandartPrice(Double standartPrice) {
-        standartPrice = standartPrice;
-    }
-
-    public Integer getAvailableSeats() {
-        return availableSeats;
-    }
-
     public Integer getTotalSeats() {
         return totalSeats;
-    }
-
-
-    public void setAvailableSeats(Integer availableSeats) {
-        this.availableSeats = availableSeats;
     }
 
     public void setTotalSeats(Integer totalSeats) {
