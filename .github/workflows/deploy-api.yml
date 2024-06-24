@@ -29,5 +29,5 @@ jobs:
           server: ${{ secrets.FTPSERVERPROD }}
           username: ${{ secrets.FTPUSERNAMEPROD }}
           password: ${{ secrets.FTPPASSWORDPROD }}
-          local-dir: ./jo/target/api-olympe.jar  # Répertoire contenant le fichier JAR généré par Maven
+          local-dir: ./jo/target/    # Répertoire contenant le fichier JAR généré par Maven
           server-dir: /www/api/
