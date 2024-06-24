@@ -19,5 +19,5 @@ jobs:
           server: ${{ secrets.FTPSERVERPROD }}
           username: ${{ secrets.FTPUSERNAMEPROD }}
           password: ${{ secrets.FTPPASSWORDPROD }}
-          local-dir: ./target/
+          local-dir: ./api/
           server-dir: /www/api/
