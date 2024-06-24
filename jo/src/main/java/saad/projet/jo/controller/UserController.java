@@ -48,12 +48,22 @@ public class UserController {
 
     @GetMapping("/check-connected")
     public ResponseEntity<?> checkConected(@RequestHeader("Authorization") String token){
-        return new ResponseEntity<>(HttpStatus.OK);
+        if(service.checkIfLoggin(jwtService.extractEmail(token))){
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/check-connected-admin")
     public ResponseEntity<?> checkConectedAdmin(@RequestHeader("Authorization") String token){
-        return new ResponseEntity<>(HttpStatus.OK);
+        if(service.checkIfLoggin(jwtService.extractEmail(token))){
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping()

@@ -36,6 +36,14 @@ public class UserService {
         this.operationRepository = operationRepository;
     }
 
+    public Boolean checkIfLoggin(String email) {
+         User user = repository.findByEmail(email).orElse(null);
+         if(user != null){
+             return true;
+         }
+         return false;
+    }
+
     public List<GetUserDto> findAll() {
         List<User> users = repository.findAll();
         List<GetUserDto> getUserDtoList = new ArrayList<>();

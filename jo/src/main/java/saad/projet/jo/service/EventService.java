@@ -102,10 +102,10 @@ public class EventService {
 
     public Boolean checkAvailableEvent(String uuid){
         Event evenement = findEvenementById(uuid);
-        if(evenement.getAvailableSeats() > 0){
-            return true;
+        if(evenement.getAvailableSeats() == 0){
+            return false;
         }
-        return false;
+        return true;
     }
 
     public Boolean checkIfCategoryHasNoEvent(String uuid){

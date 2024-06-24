@@ -12,13 +12,13 @@ public class RegisterDto {
     @StrongPassword
     private String password;
 
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "Le nom complet ne doit contenir que des lettres.")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Le nom complet ne doit contenir que des lettres, des chiffres et des espaces.")
     private String fullName;
 
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "Le nom complet ne doit contenir que des lettres.")
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "Le nom ne doit contenir que des lettres.")
     private String name;
 
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "Le nom complet ne doit contenir que des lettres.")
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "Le prenom ne doit contenir que des lettres.")
     private String firstName;
 
 

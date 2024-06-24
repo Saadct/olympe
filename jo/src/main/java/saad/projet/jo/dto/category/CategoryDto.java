@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Pattern;
 
 public class CategoryDto {
 
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "Le nom complet ne doit contenir que des lettres.")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Le nom complet ne doit contenir que des lettres, des chiffres et des espaces.")
     private String name;
 
     @Pattern(regexp = "^[a-zA-Z]+$", message = "Le nom complet ne doit contenir que des lettres.")
