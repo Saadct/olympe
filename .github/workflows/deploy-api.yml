@@ -3,7 +3,7 @@ name: Prod - Deploy APP backend API to FTP
 on:
   push:
     branches:
-      - main
+      - preprod
 
 jobs:
   deploy:
