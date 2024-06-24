@@ -122,7 +122,6 @@
 							<mainClass>saad.projet.jo.JoApplication</mainClass>
 						</manifest>
 					</archive>
-					<finalName>api-olympe</finalName>
 				</configuration>
 			</plugin>
 
