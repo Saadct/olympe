@@ -16,6 +16,7 @@ import saad.projet.jo.service.UserService;
 
 import java.util.Optional;
 
+@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 
