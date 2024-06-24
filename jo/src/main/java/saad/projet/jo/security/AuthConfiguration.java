@@ -38,6 +38,8 @@ public class AuthConfiguration {
                 .authorizeHttpRequests(requests -> requests.
                     requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 
+                    .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
+
                                 //auth
                     .requestMatchers(new AntPathRequestMatcher("/auth/login")).permitAll()
                     .requestMatchers(new AntPathRequestMatcher("/auth/signup")).permitAll()
