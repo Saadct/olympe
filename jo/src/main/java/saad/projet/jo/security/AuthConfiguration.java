@@ -53,10 +53,16 @@ public class AuthConfiguration {
                     .requestMatchers(new AntPathRequestMatcher("/users/paginated/**")).hasAuthority("ADMIN")
                     .requestMatchers(new AntPathRequestMatcher("/users/informations/**")).hasAuthority("ADMIN")
                     .requestMatchers(new AntPathRequestMatcher("/users/change-role/**")).hasAuthority("ADMIN")
+
+
                     .requestMatchers(new AntPathRequestMatcher("/users/tickets/me/**")).hasAnyAuthority("ADMIN","USER")
-                    .requestMatchers(new AntPathRequestMatcher("/users/ticket/me/**")).hasAnyAuthority("ADMIN","USER")
-                    .requestMatchers(new AntPathRequestMatcher("/users/ticket/subscription/**")).hasAnyAuthority("ADMIN","USER")
+
+                    .requestMatchers(new AntPathRequestMatcher("/ticket/subscription/{uuid}")).hasAuthority("USER")
+                    .requestMatchers(new AntPathRequestMatcher("/users/ticket/me/cancel/{uuid}")).hasAuthority("USER")
                     .requestMatchers(new AntPathRequestMatcher("/users/ticket/cancel-subscription/**")).hasAuthority("ADMIN")
+
+
+
                     .requestMatchers(new AntPathRequestMatcher("/users/ticket/checkregistration/**")).hasAnyAuthority("ADMIN","USER")
 
                         //tickets

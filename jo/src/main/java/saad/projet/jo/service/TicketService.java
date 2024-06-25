@@ -189,14 +189,21 @@ public class TicketService {
     }
 
     public Boolean checkRegistration(String email, String uuid){
-        User user = userService.findByEmail(email);
-        Event evenement = evenementService.findEvenementById(uuid);
-        List<Ticket> tickets = repository.findAllByUserAndEvenement(user,evenement);
-        if(tickets.size() > 0){
-            return true;
+        try {
+            User user = userService.findByEmail(email);
+            Event evenement = evenementService.findEvenementById(uuid);
+            List<Ticket> tickets = repository.findAllByUserAndEvenement(user, evenement);
+            if(tickets.size() > 0){
+                return true;
+            }else {
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
         }
-        return false;
     }
+
+
 
     public Boolean createTicket( String email, String eventId){
         if(!checkRegistration(email, eventId)) {

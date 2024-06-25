@@ -44,7 +44,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> authenticate(
-            @RequestBody LoginDto loginUserDto) {
+         @RequestBody @Valid LoginDto loginUserDto) {
 
         User authentificatedUser = authentificationService.authenticate(loginUserDto);
         String jwtToken = jwtService.generateToken(authentificatedUser);
@@ -68,7 +68,6 @@ public class AuthController {
 
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PatchMapping("/updatePassword")
     public ResponseEntity<?> updateUserPassword(@RequestHeader("Authorization") String token, @Valid @RequestBody UpdatePasswordDto password) {
         if (authentificationService.UpdatePassword(jwtService.extractEmail(token), password)) {
