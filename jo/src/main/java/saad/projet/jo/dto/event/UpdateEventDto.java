@@ -10,18 +10,9 @@ import java.time.LocalTime;
 @Setter
 public class UpdateEventDto {
 
-    @NotBlank
-    private String categoryId;
-
-    private String state;
-
     @NotNull(message = "Le nombre total de sièges ne doit pas être nul.")
     @PositiveOrZero(message = "Le nombre total de sièges doit être positif ou égal à zéro.")
     private Integer totalSeats;
-
-    private Integer availableSeats;
-
-
 
     @NotBlank
     @Size(min=1 , max=25)
@@ -45,13 +36,10 @@ public class UpdateEventDto {
     @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Le description longue ne doit contenir que des lettres, des chiffres et des espaces.")
     private String longDescription;
 
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
+    @NotBlank
+    @Pattern(regexp = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            message = "La category doit être un UUID valide")
+    private String categoryId;
 
     public LocalTime getHourBegin() {
         return hourBegin;
@@ -109,17 +97,11 @@ public class UpdateEventDto {
         return shortDescription;
     }
 
-    public Integer getAvailableSeats() {
-        return availableSeats;
-    }
 
     public Integer getTotalSeats() {
         return totalSeats;
     }
 
-    public void setAvailableSeats(Integer availableSeats) {
-        this.availableSeats = availableSeats;
-    }
 
     public void setTotalSeats(Integer totalSeats) {
         this.totalSeats = totalSeats;

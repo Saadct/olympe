@@ -11,9 +11,9 @@ import java.time.LocalTime;
 public class CreateEventDto {
 
     @NotBlank
+    @Pattern(regexp = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            message = "La category doit être un UUID valide")
     private String categoryId;
-
-    private String state;
 
     @NotBlank
     @Size(min=1 , max=25)
@@ -47,13 +47,6 @@ public class CreateEventDto {
         this.totalSeats = totalSeats;
     }
 
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
 
     public LocalTime getHourBegin() {
         return hourBegin;

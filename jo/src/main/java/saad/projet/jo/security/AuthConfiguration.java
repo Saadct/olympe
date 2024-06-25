@@ -87,21 +87,7 @@ public class AuthConfiguration {
                         // operations
                     .requestMatchers(new AntPathRequestMatcher("/operations/**")).hasAuthority("ADMIN")
 
-
-
-
-
-                        //   .requestMatchers(new AntPathRequestMatcher("/evenements/**")).hasAnyAuthority("USER")
-                      //  .requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll()
-                      //  .requestMatchers(new AntPathRequestMatcher("/users/**")).permitAll()
-                      //  .requestMatchers(new AntPathRequestMatcher("/evenements")).permitAll()
-                       // .requestMatchers(new AntPathRequestMatcher("/tickets/**")).permitAll()
-                       // .requestMatchers(new AntPathRequestMatcher("/categories")).permitAll()
-                      //  .requestMatchers(new AntPathRequestMatcher("/categories/**")).permitAll()
-
-                )//.anyRequest().authenticated())
-                //    requests.requestMatchers(new AntPathRequestMatcher("/students/**")).hasAuthority("ADMIN"))
-                //           .requestMatchers(new AntPathRequestMatcher("/api/**")).hasAnyAuthority("USER", "ADMIN")
+                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authenticationProvider(authenticationProvider)

@@ -50,7 +50,6 @@ public class UserController {
     public ResponseEntity<?> checkConected(@RequestHeader("Authorization") String token){
         if(service.checkIfLoggin(jwtService.extractEmail(token))){
             return new ResponseEntity<>(HttpStatus.OK);
-
         }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

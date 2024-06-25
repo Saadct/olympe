@@ -17,7 +17,6 @@ import saad.projet.jo.service.TicketService;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -34,13 +33,7 @@ public class EventController {
         this.ticketService = ticketService;
         this.jwtService = jwtService;
     }
-/*
-    @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping
-    public ResponseEntity<List<Event>> findAll(){
-        return new ResponseEntity<>(service.findAllEvenement(), HttpStatus.OK);
-    }
-*/
+
 
     @GetMapping("/details/{uuid}")
     public ResponseEntity<Event> findById(@PathVariable("uuid") String uuid){
