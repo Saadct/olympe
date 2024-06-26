@@ -133,6 +133,7 @@ public class TicketService {
             ticketDto.setFirstname(ticket.getFirstname());
             ticketDto.setName(ticket.getName());
             ticketDto.setUuid(ticket.getUuid());
+            ticketDto.setUserUuid(ticket.getUser().getId());
             getTicketsDto.add(ticketDto);
         }
         Page<GetTicketDto> ticketsPage = new PageImpl<>(getTicketsDto, paging, 10);

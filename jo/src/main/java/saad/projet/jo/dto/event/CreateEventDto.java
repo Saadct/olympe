@@ -17,7 +17,7 @@ public class CreateEventDto {
 
     @NotBlank
     @Size(min=1 , max=25)
-    @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Le nom ne doit contenir que des lettres, des chiffres et des espaces.")
+    @Pattern(regexp = "^[a-zA-Z0-9 À-ÖØ-öø-ÿ'’]*$", message = "Le nom ne doit contenir que des lettres, des chiffres et des espaces.")
     private String name;
 
     @NotNull(message = "Le nombre total de sièges ne doit pas être nul.")
@@ -33,10 +33,10 @@ public class CreateEventDto {
     @NotNull(message = "L'heure de fin ne doit pas être nulle.")
     private LocalTime hourEnding;
 
-    @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Le description courte ne doit contenir que des lettres, des chiffres et des espaces.")
+    @Pattern(regexp = "^[a-zA-Z0-9 À-ÖØ-öø-ÿ'’]*$", message = "Le description courte ne doit contenir que des lettres, des chiffres et des espaces.")
     private String shortDescription;
 
-    @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Le description longue ne doit contenir que des lettres, des chiffres et des espaces.")
+    @Pattern(regexp = "^[a-zA-Z0-9 À-ÖØ-öø-ÿ'’]*$", message = "Le description longue ne doit contenir que des lettres, des chiffres et des espaces.")
     private String longDescription;
 
     public Integer getTotalSeats() {

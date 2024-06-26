@@ -57,7 +57,7 @@ public class AuthConfiguration {
 
                     .requestMatchers(new AntPathRequestMatcher("/users/tickets/me/**")).hasAnyAuthority("ADMIN","USER")
 
-                    .requestMatchers(new AntPathRequestMatcher("/ticket/subscription/{uuid}")).hasAuthority("USER")
+                    .requestMatchers(new AntPathRequestMatcher("/users/ticket/subscription/{uuid}")).hasAuthority("USER")
                     .requestMatchers(new AntPathRequestMatcher("/users/ticket/me/cancel/{uuid}")).hasAuthority("USER")
                     .requestMatchers(new AntPathRequestMatcher("/users/ticket/cancel-subscription/**")).hasAuthority("ADMIN")
 

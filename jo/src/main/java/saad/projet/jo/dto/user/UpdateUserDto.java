@@ -3,6 +3,7 @@ import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 
 public class UpdateUserDto {
+
     @Email(message = "Veuillez fournir une adresse e-mail valide.")
     private String email;
 

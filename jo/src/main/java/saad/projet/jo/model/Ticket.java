@@ -139,4 +139,8 @@ public class Ticket {
     public LocalDateTime getDateLastUpdate() {
         return dateLastUpdate;
     }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

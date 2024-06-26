@@ -13,6 +13,8 @@ public class GetTicketDto {
 
     private String state;
 
+    private String UserUuid;
+
 
     private String firstname;
 
@@ -66,6 +68,12 @@ public class GetTicketDto {
         this.state = state;
     }
 
+    public String getUserUuid() {
+        return UserUuid;
+    }
 
+    public void setUserUuid(String userUuid) {
+        UserUuid = userUuid;
+    }
 }
 

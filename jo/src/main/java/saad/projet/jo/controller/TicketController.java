@@ -28,25 +28,7 @@ public class TicketController {
         this.service = service;
         this.jwtService = jwtService;
     }
-/*
-    TODO futur
 
-    @GetMapping
-    public ResponseEntity<List<Ticket>> findAll(){
-        List<Ticket> tickets = service.findAllTicket();
-        return new ResponseEntity<>(tickets, HttpStatus.OK);
-    }
-
-    @GetMapping("/{uuid}")
-    public ResponseEntity<Ticket> findById(@PathVariable("uuid") String uuid) {
-        Ticket ticket = service.findTicketById(uuid);
-        if (ticket == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(ticket, HttpStatus.OK);
-        }
-    }
-*/
 
     @PostMapping
     public ResponseEntity<Ticket> create(@Valid @RequestBody Ticket t) {
@@ -63,18 +45,6 @@ public class TicketController {
         }
     }
 
-    /*
-    TODO futur
-    @PutMapping("/{uuid}")
-    public ResponseEntity<?> mettreAJourTotalement(@PathVariable String uuid,
-                                                   @Valid @RequestBody Ticket t){
-        if (service.updateTicket(uuid, t)) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-*/
     @GetMapping("/paginated/{uuid}/{page}/{size}")
     public ResponseEntity<List<Object>> findTicketByEvenement(
             @PathVariable("page") int page,

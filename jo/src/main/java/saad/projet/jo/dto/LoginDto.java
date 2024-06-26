@@ -2,6 +2,7 @@ package saad.projet.jo.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import saad.projet.jo.validator.StrongPassword;
 
 public class LoginDto {
@@ -12,7 +13,8 @@ public class LoginDto {
     @StrongPassword
     private String password;
 
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "Le nom ne doit contenir que des lettres.")
+    @Size(min=1 , max=25)
+    @Pattern(regexp = "^[a-zA-Z0-9 À-ÖØ-öø-ÿ'’]*$", message = "Le nom ne doit contenir que des lettres, des chiffres et des espaces.")
     private String fullName;
 
 
