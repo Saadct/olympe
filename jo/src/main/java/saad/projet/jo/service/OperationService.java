@@ -63,7 +63,6 @@ public class OperationService {
         return false;
     }
 
-    @Transactional
     public boolean recordAction (String actionType, LocalDateTime date, String email){
         User user = userService.findByEmail(email);
         if(user != null) {
@@ -73,7 +72,4 @@ public class OperationService {
         }
         return false;
         }
-
-
-
 }

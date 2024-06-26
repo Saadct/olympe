@@ -39,7 +39,6 @@ public class EventService {
 
     public List<Event> findAllEvenement() {
         System.out.println("Toutes les evenements");
-       // Pageable paging = PageRequest.of(0, 10); // Always return the first 10 elements
         return repository.findAll();
     }
 
@@ -129,12 +128,10 @@ public class EventService {
         return false;
     }
 
-    @Transactional
     public Boolean updateEvenement(String id, UpdateEventDto updateEvent, String email) {
         Event evenementAModifier = findEvenementById(id);
         LocalDateTime date = LocalDateTime.now();
         long coutInscription = ticketRepository.countByEvenement(evenementAModifier);
-        int totalseat = 0;
 
         if(updateEvent.getTotalSeats() < coutInscription){
             return false;
@@ -171,12 +168,17 @@ public class EventService {
 
 
     public void updateSeatsAvailable(String uuid) {
-        Event evenement = findEvenementById(uuid);
-        long coutInscription = ticketRepository.countByEvenement(evenement);
-        Integer availableSeat = evenement.getTotalSeats() - (int)coutInscription;
-        evenement.setAvailableSeats(availableSeat);
-        repository.save(evenement);
+        try {
+            Event evenement = findEvenementById(uuid);
+            long countInscription = ticketRepository.countByEvenement(evenement);
+            Integer availableSeats = evenement.getTotalSeats() - (int) countInscription;
+            evenement.setAvailableSeats(availableSeats);
+            repository.save(evenement);
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la mise à jour des places disponibles pour l'événement : " + e.getMessage());
+        }
     }
+
 
 
 

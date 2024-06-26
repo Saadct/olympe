@@ -101,7 +101,6 @@ public class UserService {
         return repository.findById(id).orElse(null);
     }
 
-
     public GetUserDto findUserById(String id) {
         User user = repository.findById(id).orElse(null);
         return new GetUserDto(user.getEmail(),
@@ -115,8 +114,6 @@ public class UserService {
 
     public Boolean UpdateUserByToken(UpdateUserDto newUser, String email){
         User userToUpdate = findByEmail(email);
-        System.out.println(userToUpdate.getPassword());
-        //    LocalDateTime date = LocalDateTime.now();
         if(userToUpdate != null) {
             if (newUser.getEmail() != userToUpdate.getUsername()){
                 userToUpdate.setEmail(newUser.getEmail());
@@ -150,26 +147,11 @@ public class UserService {
             {
                 userToUpdate.setName(newUser.getName());
             }
-
             repository.save(userToUpdate);
             return true;
         }
         return false;
     };
-
-
-
-    public boolean UpdatePassword(String id, UpdatePasswordDto updatePassword){
-        User userToUpdate = findById(id);
-        userToUpdate.getPassword();
-        if(userToUpdate != null){
-            //    userToUpdate.setPasword(updatePassword.getPassword());
-            repository.save(userToUpdate);
-            return true;
-        }
-        return false;
-
-    }
 
     public Boolean createUserAdmin(RegisterDto registerUser, String email) {
         LocalDateTime dateTime = LocalDateTime.now();
