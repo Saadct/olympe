@@ -198,6 +198,8 @@ public class TicketService {
         return false;
     }
 
+    
+
     public Boolean createTicket( String email, String eventId){
         if(!checkRegistration(email, eventId)) {
             Event event = evenementService.findEvenementById(eventId);

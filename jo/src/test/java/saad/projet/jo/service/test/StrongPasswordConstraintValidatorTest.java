@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-@ExtendWith(MockitoExtension.class)
 public class StrongPasswordConstraintValidatorTest {
 
     private StrongPasswordConstraintValidator validator;
