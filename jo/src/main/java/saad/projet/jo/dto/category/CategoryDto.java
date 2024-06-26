@@ -1,13 +1,19 @@
 package saad.projet.jo.dto.category;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 public class CategoryDto {
 
-    @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Le nom complet ne doit contenir que des lettres, des chiffres et des espaces.")
+    @NotBlank
+    @Size(min=1 , max=25)
+    @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Le nom ne doit contenir que des lettres, des chiffres et des espaces.")
     private String name;
 
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "Le nom complet ne doit contenir que des lettres.")
+    @NotBlank
+    @Size(min=1 , max=25)
+    @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Le type ne doit contenir que des lettres, des chiffres et des espaces.")
     private String type;
 
 
