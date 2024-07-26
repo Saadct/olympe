@@ -7,11 +7,6 @@ Selon les droits et les rôles attribués, certaines routes ne sont pas disponib
 
 Il y a beaucoup de contrôles au niveau des annotations ainsi que des contrôleurs.Ceci est un gestionnaire par API des épreuves associatives, à la base conçu exclusivement pour les JO, avec des tests unitaires.
 
-Selon les droits et les rôles attribués, certaines routes ne sont pas disponibles pour tous.
-
-Il y a beaucoup de contrôles au niveau des annotations ainsi que des contrôleurs.
-
-
 
 - **GitHub Actions** : Automatisation du déploiement pour garantir que le site est toujours à jour en production.
 
