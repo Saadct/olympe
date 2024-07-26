@@ -13,6 +13,7 @@ Il y a beaucoup de contrôles au niveau des annotations ainsi que des contrôleu
 
 
 
+- **GitHub Actions** : Automatisation du déploiement pour garantir que le site est toujours à jour en production.
 
 
 ## Public
